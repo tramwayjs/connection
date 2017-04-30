@@ -103,5 +103,5 @@ An entity is a simple class that contains the getters and setters for its proper
 
 To create an entity, extend the class.
 ```
-import {Entity} from 'tramway-core-connection-connection';
+import {Entity} from 'tramway-core-connection';
 ```
