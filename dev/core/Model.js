@@ -7,6 +7,7 @@ let {AbstractMethodError} = errors;
 /**
  * @export
  * @class Model
+ * @deprecated Use Repository instead
  */
 export default class Model {
     /**
@@ -16,6 +17,7 @@ export default class Model {
      * @param {Entity} entity
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     constructor(connection, entity) {
         this.connection = TypeEnforcementService.enforceInstance(connection, Connection);
@@ -25,6 +27,7 @@ export default class Model {
     /**
      * @abstract
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     getId() {
         throw new AbstractMethodError();
@@ -34,6 +37,7 @@ export default class Model {
      * @abstract
      * @params {number|string|[]} value
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     setId(value) {
         throw new AbstractMethodError();
@@ -45,6 +49,7 @@ export default class Model {
      * @returns {Model}
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     updateEntity(item) {
         this.entity = new this.entity.constructor(item);
@@ -56,6 +61,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     exists(cb) {
         return this.connection.hasItem(this.getId(), cb);
@@ -66,6 +72,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     get(cb) {
         return this.connection.getItem(this.getId(), cb);
@@ -76,6 +83,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     getAll(cb) {
         return this.connection.getAllItems(cb);
@@ -86,6 +94,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     create(cb) {
         return this.connection.createItem(this.entity, cb);
@@ -96,6 +105,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     update(cb) {
         return this.connection.updateItem(this.getId(), this.entity, cb);
@@ -106,6 +116,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     delete(cb) {
         return this.connection.deleteItem(this.getId(), cb);
@@ -117,6 +128,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     find(conditions, cb) {
         return this.connection.findItems(conditions, cb);
@@ -128,6 +140,7 @@ export default class Model {
      * @returns
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     getMany(ids, cb) {
         return this.connection.getItems(ids, cb);
@@ -138,6 +151,7 @@ export default class Model {
      * @param {function(Error, number)} cb
      * 
      * @memberOf Model
+     * @deprecated Use Repository instead
      */
     count(conditions, cb) {
         this.connection.countItems(conditions, cb);
