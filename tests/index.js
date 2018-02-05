@@ -79,4 +79,29 @@ describe("Simple acceptance tests to ensure library returns what's promised.", f
             });
         }     
     ));
+
+    describe("Should return a proper 'Repository' class", describeCoreClass(
+        lib.Repository, 
+        "Repository", 
+        [],
+        ["exists", "get", "getAll", "create", "update", "delete", "find", "getMany", "count"],
+        function(testClass, testInstance, classFunctions, instanceFunctions) {
+            instanceFunctions.forEach(function(func){
+                var args = [];
+                switch (func) {
+                    case "create":
+                    case "update": args = ["entity", "cb"]; break;
+                    case "getAll": args = ["cb"]; break;
+                    case "getMany": args = ["ids", "cb"]; break;
+                    case "find": 
+                    case "count": args = ["conditions", "cb"]; break;
+                    default: args = ["id", "cb"];
+                }
+                describe("The '" + func + "' function should have the same signature", describeFunction(
+                    testInstance[func], 
+                    args
+                ));
+            });
+        }     
+    ));
 });
