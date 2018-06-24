@@ -4,128 +4,107 @@ let {AbstractMethodError} = errors;
 /**
  * @abstract
  * @export
- * @class Connection
- * @deprecated
+ * @class Provider
  */
-export default class Connection {
-    /**
-     * Creates an instance of Connection.
-     * 
-     * @param {Object} params
-     * 
-     * @memberOf Connection
-     */
-    constructor(params) {
-        
-    }
+export default class Provider {
 
     /**
      * @param {number|string} id
-     * @param {function(Error, Object)} cb
+     * @returns {Promise<Object>}
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    getItem(id, cb) {
+    async getOne(id) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param {string[] | number[]} ids
-     * @param {function(Error, Object[])} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    getItems(ids, cb) {
+    async getMany(ids) {
         throw new AbstractMethodError();
     }
 
     /**
-     * @param {function(Error, boolean)} cb
-     * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    getAllItems(cb) {
+    async get() {
         throw new AbstractMethodError();
     }
 
     /**
      * @param {string | Object} conditions
-     * @param {function(Error, Object[])} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    findItems(conditions, cb) {
+    async find(conditions) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param {number|string} id
-     * @param {function(Error, boolean)} cb
+     * @returns {Promise<boolean>}
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    hasItem(id, cb) {
+    async has(id) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param { string[] | number[] } ids
-     * @param {function(Error, boolean)} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    hasItems(ids, cb) {
+    async hasThese(ids) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param {string | Object} conditions
-     * @param {function(Error, number)} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    countItems(conditions, cb) {
+    async count(conditions) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param {Object} item
-     * @param {function(Error, Object)} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    createItem(item, cb) {
+    async create(item) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param {number|string} id
      * @param {Object} item
-     * @param {function(Error, Object)} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    updateItem(id, item, cb) {
+    async update(id, item) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param {number|string} id
-     * @param {function(Error, Object)} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    deleteItem(id, cb) {
+    async delete(id) {
         throw new AbstractMethodError();
     }
 
     /**
      * @param { number[] | string[]} id
-     * @param {function(Error, Object[])} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    deleteItems(id, cb) {
+    async deleteMany(id) {
         throw new AbstractMethodError();
     }
 
@@ -133,11 +112,10 @@ export default class Connection {
      * Recommended to use other functions first.
      * @param {string} query
      * @param {[] | Object} values
-     * @param {function(Error, Object[])} cb
      * 
-     * @memberOf Connection
+     * @memberOf Provider
      */
-    query(query, values, cb) {
+    async query(query, values) {
         throw new AbstractMethodError();
     }
 
