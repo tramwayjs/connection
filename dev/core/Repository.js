@@ -1,6 +1,7 @@
-import Connection from './Connection';
+import Provider from './Provider';
 import Entity from './Entity';
 import {services, errors} from "tramway-core";
+import Collection from './Collection';
 let {TypeEnforcementService} = services;
 let {AbstractMethodError} = errors;
 
@@ -12,108 +13,104 @@ export default class Repository {
     /**
      * Creates an instance of Repository.
      * 
-     * @param {Connection} connection
+     * @param {Provider} provider
      * 
      * @memberOf Repository
      */
-    constructor(connection) {
-        this.connection = TypeEnforcementService.enforceInstance(connection, Connection);
+    constructor(provider, factory) {
+        this.provider = provider;
+        this.factory = factory;
     }
 
     /**
      * @param {String|Number} id
-     * @param {function(Error, boolean)} cb
-     * @returns
+     * @returns {boolean}
      * 
      * @memberOf Repository
      */
-    exists(id, cb) {
-        return this.connection.hasItem(id, cb);
+    async exists(id) {
+        return await this.provider.has(id);
     }
 
     /**
      * @param {String|Number} id
-     * @param {function(Error, Object)} cb
-     * @returns
+     * @returns {Entity}
      * 
      * @memberOf Repository
      */
-    get(id, cb) {
-        return this.connection.getItem(id, cb);
+    async getOne(id) {
+        let item = await this.provider.getOne(id);
+        return this.factory.create(item);
     }
 
     /**
-     * @param {function(Error, Object)} cb
-     * @returns
+     * @returns {Collection}
      * 
      * @memberOf Repository
      */
-    getAll(cb) {
-        return this.connection.getAllItems(cb);
+    async get() {
+        let items = await this.provider.get();
+        return this.factory.createCollection(items);
     }
 
     /**
      * @param {Entity} entity
-     * @param {function(Error, Object)} cb
      * @returns
      * 
      * @memberOf Repository
      */
-    create(entity, cb) {
-        return this.connection.createItem(entity, cb);
+    async create(entity) {
+        return await this.provider.create(entity);
     }
 
     /**
      * @param {Entity} entity
-     * @param {function(Error, Object)} cb
      * @returns
      * 
      * @memberOf Repository
      */
-    update(entity, cb) {
-        return this.connection.updateItem(entity.getId(), entity, cb);
+    async update(entity) {
+        return await this.provider.update(entity.getId(), entity);
     }
 
     /**
      * @param {String|Number} id
-     * @param {function(Error, Object)} cb
      * @returns
      * 
      * @memberOf Repository
      */
-    delete(id, cb) {
-        return this.connection.deleteItem(id, cb);
+    async delete(id) {
+        return await this.provider.delete(id);
     }
 
     /**
      * @param {string | Object} conditions
-     * @param {function(Error, Object[]} cb
-     * @returns
+     * @returns {Collection}
      * 
      * @memberOf Repository
      */
-    find(conditions, cb) {
-        return this.connection.findItems(conditions, cb);
+    async find(conditions) {
+        let items = await this.provider.find(conditions);
+        return this.factory.createCollection(items);
     }
 
     /**
      * @param {number[] | stringp[]} ids
-     * @param {function(Error, Object[]} cb
-     * @returns
+     * @returns {Collection}
      * 
      * @memberOf Repository
      */
-    getMany(ids, cb) {
-        return this.connection.getItems(ids, cb);
+    async getMany(ids) {
+        let items = await this.provider.getMany(ids);
+        return this.factory.createCollection(items);
     }
 
     /**
      * @param {string | Object} conditions
-     * @param {function(Error, number)} cb
      * 
      * @memberOf Repository
      */
-    count(conditions, cb) {
-        this.connection.countItems(conditions, cb);
+    async count(conditions) {
+        return await this.provider.count(conditions);
     }
 }
