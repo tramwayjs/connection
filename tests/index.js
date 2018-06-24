@@ -84,18 +84,18 @@ describe("Simple acceptance tests to ensure library returns what's promised.", f
         lib.Repository, 
         "Repository", 
         [],
-        ["exists", "get", "getAll", "create", "update", "delete", "find", "getMany", "count"],
+        ["exists", "getOne", "get", "create", "update", "delete", "find", "getMany", "count"],
         function(testClass, testInstance, classFunctions, instanceFunctions) {
             instanceFunctions.forEach(function(func){
                 var args = [];
                 switch (func) {
                     case "create":
-                    case "update": args = ["entity", "cb"]; break;
-                    case "getAll": args = ["cb"]; break;
-                    case "getMany": args = ["ids", "cb"]; break;
+                    case "update": args = ["entity"]; break;
+                    case "get": args = []; break;
+                    case "getMany": args = ["ids"]; break;
                     case "find": 
-                    case "count": args = ["conditions", "cb"]; break;
-                    default: args = ["id", "cb"];
+                    case "count": args = ["conditions"]; break;
+                    default: args = ["id"];
                 }
                 describe("The '" + func + "' function should have the same signature", describeFunction(
                     testInstance[func], 
