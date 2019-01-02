@@ -1,9 +1,6 @@
 import Provider from './Provider';
 import Entity from './Entity';
-import {services, errors} from "tramway-core";
 import Collection from './Collection';
-let {TypeEnforcementService} = services;
-let {AbstractMethodError} = errors;
 
 /**
  * @export
@@ -14,12 +11,15 @@ export default class Repository {
      * Creates an instance of Repository.
      * 
      * @param {Provider} provider
+     * @param {Factory} factory
+     * @param {string} collection The name of the collection or table
      * 
      * @memberOf Repository
      */
-    constructor(provider, factory) {
+    constructor(provider, factory, collection) {
         this.provider = provider;
         this.factory = factory;
+        this.collection = collection;
     }
 
     /**
@@ -29,7 +29,7 @@ export default class Repository {
      * @memberOf Repository
      */
     async exists(id) {
-        return await this.provider.has(id);
+        return await this.provider.has(id, this.collection);
     }
 
     /**
@@ -39,7 +39,7 @@ export default class Repository {
      * @memberOf Repository
      */
     async getOne(id) {
-        let item = await this.provider.getOne(id);
+        let item = await this.provider.getOne(id, this.collection);
         return this.factory.create(item);
     }
 
@@ -49,7 +49,7 @@ export default class Repository {
      * @memberOf Repository
      */
     async get() {
-        let items = await this.provider.get();
+        let items = await this.provider.get(this.collection);
         return this.factory.createCollection(items);
     }
 
@@ -60,7 +60,8 @@ export default class Repository {
      * @memberOf Repository
      */
     async create(entity) {
-        return await this.provider.create(entity);
+        entity = this.factory.create(entity);
+        return await this.provider.create(entity, this.collection);
     }
 
     /**
@@ -70,7 +71,8 @@ export default class Repository {
      * @memberOf Repository
      */
     async update(entity) {
-        return await this.provider.update(entity.getId(), entity);
+        entity = this.factory.create(entity);
+        return await this.provider.update(entity.getId(), entity, this.collection);
     }
 
     /**
@@ -80,7 +82,7 @@ export default class Repository {
      * @memberOf Repository
      */
     async delete(id) {
-        return await this.provider.delete(id);
+        return await this.provider.delete(id, this.collection);
     }
 
     /**
@@ -90,7 +92,7 @@ export default class Repository {
      * @memberOf Repository
      */
     async find(conditions) {
-        let items = await this.provider.find(conditions);
+        let items = await this.provider.find(conditions, this.collection);
         return this.factory.createCollection(items);
     }
 
@@ -101,7 +103,7 @@ export default class Repository {
      * @memberOf Repository
      */
     async getMany(ids) {
-        let items = await this.provider.getMany(ids);
+        let items = await this.provider.getMany(ids, this.collection);
         return this.factory.createCollection(items);
     }
 
@@ -111,6 +113,10 @@ export default class Repository {
      * @memberOf Repository
      */
     async count(conditions) {
-        return await this.provider.count(conditions);
+        return await this.provider.count(conditions, this.collection);
+    }
+
+    async setup() {
+        return await this.provider.createCollection(this.collection);
     }
 }
