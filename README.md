@@ -33,17 +33,18 @@ import {Provider} from 'tramway-core-connection';
 | Function | Usage |
 | ----- | ----- |
 | ```constructor()``` | Handles database configuration |
-| ```getOne(id: any)``` | Returns item from the connection |
-| ```getMany(ids: any[])``` | Passes an array of items for an array of ids. |
-| ```find(conditions: string/Object)``` | Returns an array of items for a query on specific conditions. This may be done by object or query string depending on your implementation |
-| ```has(id: any)``` | Checks if item exists |
-| ```hasThese(ids : any[])``` | Checks if a set of items exists |
-| ```count(conditions: any)``` | Gets a count of items that meet the conditions. |
-| ```create(item: Entity/Object)``` | Creates an object in the database from an `Entity` or standard object |
-| ```update(id: any, item: Entity/Object)``` | Updates the item found with the given id |
-| ```delete(id: any)``` | Removes an item from the datastore and returns it |
-| ```deleteMany(ids : any[])``` | Removes items from the datastore and returns them |
-| ```query(query: string/Object, values: Object)``` | Meant as an override based on your datastore because we can't always rely on simple CRUD |
+| ```getOne(id: any, collection: string)``` | Returns item from the connection |
+| ```getMany(ids: any[], collection: string)``` | Passes an array of items for an array of ids. |
+| ```find(conditions: string/Object, collection: string)``` | Returns an array of items for a query on specific conditions. This may be done by object or query string depending on your implementation |
+| ```has(id: any, collection: string)``` | Checks if item exists |
+| ```hasThese(ids : any[], collection: string)``` | Checks if a set of items exists |
+| ```count(conditions: any, collection: string)``` | Gets a count of items that meet the conditions. |
+| ```create(item: Entity, collection: string): Entity``` | Creates an object in the database from an `Entity` or standard object |
+| ```update(id: any, item: Entity, collection: string): Entity``` | Updates the item found with the given id |
+| ```delete(id: any, collection: string)``` | Removes an item from the datastore and returns it |
+| ```deleteMany(ids : any[], collection: string)``` | Removes items from the datastore and returns them |
+| ```query(query: string/Object, values: Object, collection: string)``` | Meant as an override based on your datastore because we can't always rely on simple CRUD |
+| ```createCollection(collection: string)``` | A method encompassing the steps to create a collection programatically |
 
 ## Repositories
 Repositories allow you to interact with a given connection specifically for the purposes of handling a given entity. This usually implies persisting to a database but with the flexibility of Tramway, it can also mean local storage or via an API connection. The default `Repository` already links to a connection and utilizes the existing methods that were implemented when the `Provider` was implemented or imported. The following demonstrates how a Repository could be used with a Provider and Entity. It is recommended, however, to instantiate providers and repositories using `tramway-core-dependency-injector` such to make more efficient use of memory and simplify usage, in this case, no class would be required unless it was overriding default connection logic.
@@ -64,7 +65,7 @@ Note, using dependency injection negates the need for the above code.
 
 | Function | Usage |
 | --- | --- |
-| ```constructor(Provider, Factory)``` | Constructor takes a Provider and Factory |
+| ```constructor(Provider, Factory, collection)``` | Constructor takes a Provider, Factory, and the name of the collection |
 
 ### Exposed methods to use
 All of these methods rely on the Provider's implementation and will just interact with the Provider.
@@ -80,6 +81,7 @@ All of these methods rely on the Provider's implementation and will just interac
 | ```find(condtions: string/Object): Collection``` | Finds a collection of objects in the entity's set with given conditions |
 | ```getMany(ids: any[]): Collection``` | Gets objects tied to a list of ids |
 | ```count(conditions): number``` | Gets a count of objects for given conditons |
+| ```setup()``` | Handles programatic initialization of the data source |
 
 ## Factory
 
