@@ -40,6 +40,11 @@ export default class Repository {
      */
     async getOne(id) {
         let item = await this.provider.getOne(id, this.collection);
+
+        if (!item) {
+            return;
+        }
+        
         return this.factory.create(item);
     }
 
