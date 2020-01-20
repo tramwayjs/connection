@@ -1,6 +1,6 @@
 {
   "name": "tramway-core-connection",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A simple connection library for the Tramway framework",
   "author": "Julian Wolfe",
   "license": "MIT",
