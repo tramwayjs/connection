@@ -1,29 +1,29 @@
 {
   "name": "tramway-core-connection",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A simple connection library for the Tramway framework",
   "author": "Julian Wolfe",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/tramwayjs/tramway-core-connection.git"
+    "url": "https://github.com/tramwayjs/connection.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/tramwayjs/tramway-core-connection/issues?label_name%5B%5D=bug"
+    "url": "https://github.com/tramwayjs/connection/labels/bug"
   },
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "prepublish": "npm run compile",
-    "compile": "gulp distribute",
-    "test": "gulp distribute && mocha tests"
+    "prepublish": "npm run build",
+    "build": "./node_modules/.bin/babel src -d dist",
+    "test": "./node_modules/.bin/babel src -d dist && mocha tests"
   },
   "devDependencies": {
-    "babel-plugin-transform-flow-strip-types": "^6.14.0",
-    "babel-preset-es2015-node6": "^0.3.0",
-    "gulp": "~3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-sourcemaps": "~1.9.1",
-    "mocha": "^3.2.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/plugin-transform-flow-strip-types": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "mocha": "^7.0.0",
+    "tramway": "^0.5.1",
     "tramway-core-testsuite": "^1.2.0"
   },
   "dependencies": {
