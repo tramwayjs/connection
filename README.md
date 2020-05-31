@@ -26,7 +26,8 @@ Here is where you can put all the parameters for your connection.
 Providers are your way to access data sets from a data source, be it a database or API
 
 To create a provider, import the class and implement a derived class with the abstracted stubs to get the most out of it.
-```
+
+```javascript
 import {Provider} from 'tramway-core-connection';
 ```
 
@@ -49,7 +50,7 @@ import {Provider} from 'tramway-core-connection';
 ## Repositories
 Repositories allow you to interact with a given connection specifically for the purposes of handling a given entity. This usually implies persisting to a database but with the flexibility of Tramway, it can also mean local storage or via an API connection. The default `Repository` already links to a connection and utilizes the existing methods that were implemented when the `Provider` was implemented or imported. The following demonstrates how a Repository could be used with a Provider and Entity. It is recommended, however, to instantiate providers and repositories using `tramway-core-dependency-injector` such to make more efficient use of memory and simplify usage, in this case, no class would be required unless it was overriding default connection logic.
 
-```
+```javascript
 import {Repository} from 'tramway-core-connection';
 import TestConnection from '../connections/TestConnection';
 import TestEntity from '../entities/TestEntity';
@@ -88,7 +89,8 @@ All of these methods rely on the Provider's implementation and will just interac
 The factory facilitates the creation of standardized `Entity` and `Collection` objects and is primarily used by the `Repository`. Based on different use cases, it can be extended to support common formats like HATEAOS and decorate entities.
 
 To create a factory, extend the class.
-```
+
+```javascript
 import {Factory} from 'tramway-core-connection';
 ```
 
@@ -108,24 +110,30 @@ An entity is a simple class that contains the getters and setters for its proper
 | ```unserialize(item): Entity``` | Sets own attributes based on serialized string |
 
 To create an entity, extend the class.
-```
+
+```javascript
 import {Entity} from 'tramway-core-connection';
 ```
 
 ## Collection
 A collection stores a group of entities in a Map to facilitate bulk operations and validation.
 
-| Function | Usage |
-| --- | --- |
-| ```add(entity: Entity)``` | Adds entity to collection at its id as key |
-| ```has(id)``` | Checks if entity with given id exists |
-| ```get(id)``` | Gets entity with given id |
-| ```forEach(cb: function(value: Entity, key: number/string, map: Map))``` | Iterates collection of entities |
-| ```getSize(): number``` | Returns size of collection |
-| ```isEmpty(): boolean``` | Checks if collection is empty |
-| ```getEntities(): Iterator``` | Gets entities as an Iterator |
+| Function | Type | Usage |
+| --- | --- | --- |
+| ```from(entities: Entity[])``` | static | Creates a collection from an array of entities. ```let collection = Collection.from(entities)``` |
+| ```add(entity: Entity)``` | instance | Adds entity to collection at its id as key |
+| ```has(id)``` | instance | Checks if entity with given id exists |
+| ```get(id)``` | instance | Gets entity with given id |
+| ```forEach(cb: function(value: Entity, key: number/string, map: Map))``` | instance | Iterates collection of entities |
+| ```getSize(): number``` | instance | Returns size of collection |
+| ```isEmpty(): boolean``` | instance | Checks if collection is empty |
+| ```getEntities(): Iterator``` | instance | Gets entities as an Iterator |
+| ```getFirst(): Entity``` | instance | Gets first entity of collection |
+| ```getLast(): Entity``` | instance | Gets last entity of collection |
+| ```getIds(): []``` | instance | Gets ordered array of ids of the collection |
 
 To create an collection, extend the class.
-```
+
+```javascript
 import {Collection} from 'tramway-core-connection';
 ```
