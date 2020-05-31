@@ -1,8 +1,15 @@
 import Entity from "./Entity";
 
 export default class Collection {
+    static from(items = []) {
+        let collection = new Collection();
+        items.forEach(item => collection.add(item));
+        return collection;
+    }
+
     constructor() {
         this.items = new Map();
+        this.index = [];
     }
 
     /**
@@ -12,6 +19,7 @@ export default class Collection {
      */
     add(entity) {
         this.items.set(entity.getId(), entity);
+        this.index.push(entity.getId());
         return this;
     }
 
@@ -62,5 +70,19 @@ export default class Collection {
      */
     getEntities() {
         return this.items.values();
+    }
+
+    getFirst() {
+        const [id] = this.index;
+        return this.get(id);
+    }
+
+    getLast() {
+        const id = this.index[this.index.length - 1];
+        return this.get(id);
+    }
+
+    getIds() {
+        return this.index;
     }
 }
